@@ -1,5 +1,5 @@
 #library("taffy_matcher");
-#source("../dart-matchers/matchers.dart");
+#import("../dart-matchers/matchers.dart");
 
 class _MapLookup implements Matcher<Map> {
   var _predicates;
