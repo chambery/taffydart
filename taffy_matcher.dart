@@ -9,15 +9,33 @@ class _MapLookup implements Matcher<Map> {
   bool matches(Map map) {
     //print ("predicates:");
     for(final k in _predicates.getKeys()) {
-      //print ("\t${k}, ${v}");
-      if(map[k] == null || map[k].toString() != _predicates[k].toString()) {
-        return false;
+      bool decision = true;
+      if(_predicates[k] is Map) {
+        for(final l in _predicates[k].getKeys()) {
+          switch(l) {
+            case "contains" :
+              if(map[k].toString().contains(_predicates[k][l].toString())) {
+                print ("${map["name"]}: ${map[k]} contains ${_predicates[k][l]}");
+              } else {
+                print ("${map[k]} NOT contains ${_predicates[k][l]}");
+                return false;
+              }
+            break;
+          }
+        }
+      } else {
+  	return isSame(map[k], _predicates[k]);
       }
     };
 
     return true;
   }
+
+  bool isSame(o1, o2) {
+    return (o1 == null || o1.toString() != o2.toString());
+  }
 }
 
 
 Matcher<Map> lookup(predicates) => new _MapLookup(predicates);
+
