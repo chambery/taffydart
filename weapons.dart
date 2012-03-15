@@ -1,11 +1,7 @@
-#import('../dart-query/query.dart');
-//#import("../dart-matchers/matchers.dart");
-#import('taffy_matcher.dart');
-#import("../dart-matchers/matchers.dart");
-#import("dart:builtin");
+#library("weapons");
+#import("../dart-query/query.dart");
 
-main() {
-	var weapons = [ {
+var weapons = query([ {
 	"id": 0,
 	"name": "Axe, orc double",
 	"category": "exotic",
@@ -845,44 +841,4 @@ main() {
 	"damage_type": "slashing",
 	"type": "weapon",
 	"tags": ["pathfinder"], "_id": "fcc8"
-} ];
-
-	print("testTaffy");
-	var taffy = [
-		{
-			"a" : 1,
-			"b" : "string",
-			"c" : { "name" : "object"}
-		}, {
-			"a" : 2,
-			"b" : "string",
-			"d" : [ 1, 2, 3]
-		}];
-	print("matcher: ${lookup({ "d" : [1,2,3] })}\nis Matcher? ${lookup({ "d" : [1,2,3] }) is Matcher} ");
-	print("query: ${query(weapons)}\n");
-	//print("${mapContainsKey("d")}\n");
-	Matcher<Map> lup = lookup({"dam" : "1d6", "crit" : "x2" });
-	print("lookup: ${lup}  is Matcher: ${lup is Matcher}");
-	var filter = query(weapons).filter(lup);
-	print("filter: ${filter}\n");
-	//print("${equals({ "a" : 2, "b" : "string", "d" : [ 1, 2, 3] })}\n");
-	//print("${{ "a" : 2, "b" : "string", "d" : [ 1, 2, 3] }}\n");
-	query(weapons).filter(
-		lookup({
-			"dam" : {
-				"contains" : "1d6"
-				},
-			"crit" : "x2"
-			})
-		).list.forEach( (e) {
-			print("${e["name"]}");
-		});
-
-
-	Map m = query(taffy).findFirst(mapContainsKey("d"));
-	m.forEach( (k,v) {
-		print("\t${k} : ${v}");
-	});
-	//expectThat(q(taffy).findFirst(lookup( { "d" : [1,2,3] } )),
-		//equals({ "a" : 2, "b" : "string", "d" : [ 1, 2, 3] }));
-}
+} ]);
